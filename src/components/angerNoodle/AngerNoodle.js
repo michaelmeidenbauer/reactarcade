@@ -21,56 +21,15 @@ const AngerNoodle = () => {
     const [direction, updateDirection] = useState('right');
     
     const createDefaultBoard = () => {
-        const defaultRow = [
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            },
-            {
-                classString: 'cell'
-            }
-        ];
         const returnArray = [];
         while (returnArray.length < 15) {
-            returnArray.push(defaultRow);
+            const rowItem = [];
+            for (let i = 1; i < 15; i++) {
+                rowItem.push({
+                    classString: 'cell'
+                })
+            }
+            returnArray.push(rowItem);
         }
         return returnArray;
     };
@@ -88,6 +47,7 @@ const AngerNoodle = () => {
             currentSegment.classString = `cell segment ${direction}`;
         });
         updateBoard(boardCopy);
+        console.log(boardCopy);
     }
     const [snake, updateSnake] = useState([
         [10, 2],
@@ -99,7 +59,7 @@ const AngerNoodle = () => {
         [10, 8],
     ]);
     useEffect(() => {
-        renderSnake()
+        renderSnake();
     }, [snake]);
 
 
