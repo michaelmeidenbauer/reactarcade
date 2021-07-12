@@ -23,7 +23,15 @@ const AngerNoodle = () => {
     const [highScore, updateHighScore] = useState(0);
     const [direction, updateDirection] = useState('right');
     const [board, updateBoard] = useState(defaultBoard);
-    
+    const [snake, updateSnake] = useState([
+        [10, 2],
+        [10, 3],
+        [10, 4],
+        [10, 5],
+        [10, 6],
+        [10, 7],
+        [10, 8],
+    ]);
     function createDefaultBoard() {
         const returnArray = [];
         while (returnArray.length < 15) {
@@ -53,36 +61,26 @@ const AngerNoodle = () => {
         // console.log(boardCopy);
     }
     function updateSnakePosition() {
-        const snakeCopy = [...snake];
-        const head = snakeCopy[snakeCopy.length - 1];
+        const head = snake[snake.length - 1];
         const [headY, headX] = head;
         console.log('head x ', headX, 'heady ', headY);
         if (headX < 14) {
-            snakeCopy.splice(0, 1);
-            snakeCopy.push([headY, headX + 1]);
-            console.log('snake copy ', snakeCopy);
-            updateSnake(snakeCopy);
+            snake.splice(0, 1);
+            snake.push([headY, headX + 1]);
+            // console.log('snake copy ', snakeCopy);
+            // updateSnake(snakeCopy);
         }
-    }
-    const [snake, updateSnake] = useState([
-        [10, 2],
-        [10, 3],
-        [10, 4],
-        [10, 5],
-        [10, 6],
-        [10, 7],
-        [10, 8],
-    ]);
-    useEffect(() => {
         renderSnake();
-        setInterval(() => {
+    }
+    // useEffect(() => {
+    //     renderSnake();
+    // }, [snake]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
             updateSnakePosition();
         }, tickRate);
-    }, [snake]);
-
-    // useEffect(() => {
-    //     console.log(board);
-    // }, [board]);
+    }, [tickRate]);
 
     return (
         <div className="arcade-cabinet">
