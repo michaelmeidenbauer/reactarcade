@@ -1,24 +1,38 @@
 import logo from './logo.svg';
 import './App.css';
+import MainMenu from './components/mainMenu/MainMenu';
+import AngerNoodle from './components/angerNoodle/AngerNoodle';
+import ConnectFur from './components/connectFur/ConnectFur';
+
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+  Link
+} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div id="App">
+              <Switch>
+                <Route path="/angerNoodle">
+                   <AngerNoodle />
+                </Route>
+                <Route path="/connectFur">
+                  <ConnectFur />
+                </Route>
+                <Route exact path="/">
+                  <MainMenu />
+                </Route>
+                <Redirect to="/" />
+              </Switch>
+      </div>
+    </Router>
   );
 }
 
