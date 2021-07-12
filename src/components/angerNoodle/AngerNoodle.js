@@ -14,7 +14,7 @@ import {
 } from 'react-router-dom';
 import { render } from '@testing-library/react';
 const AngerNoodle = () => {
-    console.log(changeDirection);
+    // console.log(changeDirection);
     const defaultBoard = createDefaultBoard();
     const [portalsAllowed, updatePortalsAllowed] = useState(false);
     const [wallsAreLava, updateWallsAreLava] = useState(false);
@@ -49,7 +49,8 @@ const AngerNoodle = () => {
         // console.log(snake);
         const boardCopy = createDefaultBoard();
         // console.log(boardCopy);
-        snake.forEach(bodySegment => {
+        const snakeCopy = [...snake];
+        snakeCopy.forEach(bodySegment => {
             const [row, column] = bodySegment;
             // console.log('row: ', row, "column ", column);
             // console.log("current row: ", boardCopy[row]);
@@ -61,26 +62,28 @@ const AngerNoodle = () => {
         // console.log(boardCopy);
     }
     function updateSnakePosition() {
-        const head = snake[snake.length - 1];
+        console.log('updateSnakePosition called');
+        const snakeCopy = [...snake];
+        const head = snakeCopy[snakeCopy.length - 1];
         const [headY, headX] = head;
         console.log('head x ', headX, 'heady ', headY);
+        // console.log('snake copy: ',snakeCopy)
         if (headX < 14) {
-            snake.splice(0, 1);
-            snake.push([headY, headX + 1]);
+            snakeCopy.splice(0, 1);
+            snakeCopy.push([headY, headX + 1]);
             // console.log('snake copy ', snakeCopy);
-            // updateSnake(snakeCopy);
+            updateSnake(snakeCopy);
         }
-        renderSnake();
     }
-    // useEffect(() => {
-    //     renderSnake();
-    // }, [snake]);
-
     useEffect(() => {
-        const interval = setInterval(() => {
-            updateSnakePosition();
-        }, tickRate);
-    }, [tickRate]);
+        renderSnake();
+    }, [snake]);
+
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         updateSnakePosition();
+    //     }, tickRate);
+    // }, []);
 
     return (
         <div className="arcade-cabinet">
