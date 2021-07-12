@@ -8,9 +8,8 @@ import {
     Redirect
 } from 'react-router-dom';
 
-
-
 const Board = ({board}) => {
+  
     return (
       <div className='snake'>
         {
