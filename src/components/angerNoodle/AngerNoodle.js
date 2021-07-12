@@ -85,7 +85,7 @@ const AngerNoodle = () => {
             console.log("current row: ", boardCopy[row]);
             const currentSegment = boardCopy[row][column];
             // console.log(currentSegment);
-            // currentSegment.classString = `cell segment ${direction}`;
+            currentSegment.classString = `cell segment ${direction}`;
         });
         updateBoard(boardCopy);
     }

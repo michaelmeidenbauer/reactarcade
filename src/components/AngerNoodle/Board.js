@@ -16,7 +16,8 @@ const Board = ({board}) => {
       board.map((row, index) => (
         <div key={index} className={`row ${index}`}>
           {row.map((cell, i) => (
-            <div className ={cell.classString} key={i}>
+            //trying to make sure i have unique keys for all the cells. maybe janky?
+            <div className ={cell.classString} key={String(index) + i}>
             </div>
           ))}
         </div>
