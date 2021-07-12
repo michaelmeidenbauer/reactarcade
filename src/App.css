@@ -1,3 +1,6 @@
+html, body, #root, .App {
+  height: 100vh;
+}
 .arcade-display {
   margin: auto;
   width: 70vh;
@@ -5,7 +8,7 @@
   box-shadow: 10px 10px 10px #343232;
 }
 .arcade-cabinet {
-  height: 100 vh;
+  height: 100vh;
   width: auto;
 }
 .message-box {

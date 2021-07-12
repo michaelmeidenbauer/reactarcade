@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import MainMenu from './components/mainMenu/MainMenu';
-import AngerNoodle from './components/angerNoodle/AngerNoodle';
-import ConnectFur from './components/connectFur/ConnectFur';
+import AngerNoodle from './components/AngerNoodle/AngerNoodle';
+import ConnectFur from './components/ConnectFur/ConnectFur';
 
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
@@ -16,6 +16,7 @@ import {
 } from 'react-router-dom';
 
 function App() {
+
   return (
     <Router>
       <div id="App">

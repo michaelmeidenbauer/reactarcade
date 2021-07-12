@@ -1,0 +1,125 @@
+@keyframes portalBlink {
+    0% {background-color: blue;}
+    50% {background-color: orange;}
+    100% {background-color: blue;}
+}
+#anger-noodle {
+    height: 10vh;
+    width: auto;
+}
+.anger-noodle-message {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+.snake {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(15, 1fr);
+    border: 3px solid black;
+    /* background-image: url("assets/sydney-face.png");
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+.lava {
+    border-color: red;
+}
+#lava-button {
+   font-size: large;
+   background-color: black;
+   color: white;
+   border-width: .5vw;
+}
+#portal-button {
+   font-size: large;
+   background-color: black;
+   color: white;
+   border-width: .5vw;
+}
+.portal-button-active {
+    animation: portalBlink 4s infinite linear;
+}
+.orange {
+    background-image: url("./portal-orange.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.blue {
+    background-image: url("./portal-blue.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.portal {
+    color: transparent;
+}
+.segment {
+    background-color: transparent;
+}
+.cell {
+    border: 1px solid rgba(154, 150, 150, 0.084);
+}
+.game-over-angerNoodle {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+.treat {
+    background-image: url("./uno.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.score {
+    text-align: center;
+}
+/* .fuzz {
+    width: 100%;
+    height: 100%;
+    background-image: url("./sydney-square.png");
+}
+.head {
+    width: 100%;
+    height: 100%;
+    background-image: url("./sydney-face.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+} */ 
+.up {
+    background-image: url("./up.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.down {
+    background-image: url("./down.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.left {
+    background-image: url("./left.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.right {
+    background-image: url("./right.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.anger-noodle-controls {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-evenly;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+.pause-head {
+    border: red solid 3px;
+}
