@@ -255,7 +255,62 @@ const AngerNoodle = () => {
         '',
         ''
     ];
-    const [board, updateBoard] = useState([...defaultBoard]);
+    const createdefaultBoard = () => {
+        const defaultRow = [
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            },
+            {
+                classString: 'cell'
+            }
+        ];
+        const returnArray = [];
+        while (returnArray.length < 15) {
+            returnArray.push(defaultRow);
+        }
+        console.log(returnArray);
+        return returnArray;
+    };
+    const [board, updateBoard] = useState(createdefaultBoard());
 
     return (
         <div className="arcade-cabinet">

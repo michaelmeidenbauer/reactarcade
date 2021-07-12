@@ -18,12 +18,16 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(15, 1fr);
+    grid-template-columns: 1 / 100%;
     grid-template-rows: repeat(15, 1fr);
     border: 3px solid black;
     /* background-image: url("assets/sydney-face.png");
     background-repeat: no-repeat;
     background-size: cover; */
+}
+.row{
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
 }
 .lava {
     border-color: red;

@@ -12,12 +12,17 @@ import {
 
 const Board = ({board}) => {
     return (
-        <div className="snake">
+      <div className='snake'>
         {
-          board.map((row, index) => (
-            <div className="cell" key={index}></div>
-          ))
-        }
+      board.map((row, index) => (
+        <div key={index} className={`row ${index}`}>
+          {row.map((cell, i) => (
+            <div className ={cell.classString} key={i}>
+            </div>
+          ))}
+        </div>
+      ))
+          }
       </div>
     );
     }
