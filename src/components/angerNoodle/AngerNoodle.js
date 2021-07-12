@@ -4,6 +4,7 @@ import MessageBox from './MessageBox';
 import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
+import { changeDirection} from './helperFunctions/movement';
 
 import {
     BrowserRouter as Router,
@@ -13,18 +14,21 @@ import {
 } from 'react-router-dom';
 import { render } from '@testing-library/react';
 const AngerNoodle = () => {
+    console.log(changeDirection);
+    const defaultBoard = createDefaultBoard();
     const [portalsAllowed, updatePortalsAllowed] = useState(false);
     const [wallsAreLava, updateWallsAreLava] = useState(false);
-    const [tickRate, updateTickRate] = useState(100);
+    const [tickRate, updateTickRate] = useState(700);
     const [currentScore, updateScore] = useState(0);
     const [highScore, updateHighScore] = useState(0);
     const [direction, updateDirection] = useState('right');
+    const [board, updateBoard] = useState(defaultBoard);
     
-    const createDefaultBoard = () => {
+    function createDefaultBoard() {
         const returnArray = [];
         while (returnArray.length < 15) {
             const rowItem = [];
-            for (let i = 1; i < 15; i++) {
+            for (let i = 0; i < 15; i++) {
                 rowItem.push({
                     classString: 'cell'
                 })
@@ -33,21 +37,32 @@ const AngerNoodle = () => {
         }
         return returnArray;
     };
-    const [board, updateBoard] = useState(createDefaultBoard());
     function renderSnake() {
-        console.log(snake);
-        const boardCopy = [...board];
-        console.log(boardCopy);
+        // console.log(snake);
+        const boardCopy = createDefaultBoard();
+        // console.log(boardCopy);
         snake.forEach(bodySegment => {
             const [row, column] = bodySegment;
-            console.log('row: ', row, "column ", column);
-            console.log("current row: ", boardCopy[row]);
+            // console.log('row: ', row, "column ", column);
+            // console.log("current row: ", boardCopy[row]);
             const currentSegment = boardCopy[row][column];
             // console.log(currentSegment);
             currentSegment.classString = `cell segment ${direction}`;
         });
         updateBoard(boardCopy);
-        console.log(boardCopy);
+        // console.log(boardCopy);
+    }
+    function updateSnakePosition() {
+        const snakeCopy = [...snake];
+        const head = snakeCopy[snakeCopy.length - 1];
+        const [headY, headX] = head;
+        console.log('head x ', headX, 'heady ', headY);
+        if (headX < 14) {
+            snakeCopy.splice(0, 1);
+            snakeCopy.push([headY, headX + 1]);
+            console.log('snake copy ', snakeCopy);
+            updateSnake(snakeCopy);
+        }
     }
     const [snake, updateSnake] = useState([
         [10, 2],
@@ -60,8 +75,10 @@ const AngerNoodle = () => {
     ]);
     useEffect(() => {
         renderSnake();
+        setInterval(() => {
+            updateSnakePosition();
+        }, tickRate);
     }, [snake]);
-
 
     // useEffect(() => {
     //     console.log(board);
@@ -69,6 +86,11 @@ const AngerNoodle = () => {
 
     return (
         <div className="arcade-cabinet">
+           <button onClick={() => {
+               updateSnakePosition();
+           }}>
+               Move noodle
+           </button>
             <Score
                 currentScore={currentScore}
                 highScore={highScore}
