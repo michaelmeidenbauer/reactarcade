@@ -1,16 +1,11 @@
-export const handleKeyPress = (event) => {
+export const handleKeyPress = (event, gameState, updateGameState, snake, updateSnake, updateSnakePosition) => {
     if (event.key === ' ') {
+        if (gameState === "active"){
+            updateGameState("paused");
+        } else {
+            updateGameState("active");
+            updateSnake(updateSnakePosition(snake));
+        }
         console.log('space press here! ');
     }
 }
-// useEffect(
-//     () => {
-//         // Add event listener
-//         document.addEventListener("keydown", handleKeyPress);
-//         // Remove event listener on cleanup
-//         return () => {
-//             document.removeEventListener("keydown", handleKeyPress);
-//         };
-//     },
-//     []
-// );

@@ -6,6 +6,7 @@ import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
 import { changeDirection } from './helperFunctions/movement';
 import { updateSnakePosition, updateBoardData, createDefaultBoard } from './helperFunctions/data';
+import { handleKeyPress } from './helperFunctions/eventHandlers';
 
 import {
     BrowserRouter as Router,
@@ -23,6 +24,7 @@ const AngerNoodle = () => {
     const [highScore, updateHighScore] = useState(0);
     const [direction, updateDirection] = useState('right');
     const [board, updateBoard] = useState(defaultBoard);
+    const [gameState, updateGameState] = useState('active');
     const [snake, updateSnake] = useState([
         [10, 2],
         [10, 3],
@@ -33,13 +35,25 @@ const AngerNoodle = () => {
         [10, 8],
     ]);
     useEffect(() => {
+        console.log(gameState);
+    }, [gameState])
+    useEffect(() => {
         updateBoard(updateBoardData(snake, direction));
-        const interval = setInterval(() => {
-            updateSnake(updateSnakePosition(snake));
-        }, tickRate);
-        return () => clearInterval(interval);
-        // setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
+        if (gameState === "active") {
+            setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
+        }
     }, [snake]);
+    // useEffect(
+    //     () => {
+    //         // Add event listener
+    //         document.addEventListener("keydown", (event) => { handleKeyPress(event, gameState, updateGameState, snake, updateSnake, updateSnakePosition) });
+    //         // Remove event listener on cleanup
+    //         return () => {
+    //             document.removeEventListener("keydown", (event) => { handleKeyPress(event, gameState, updateGameState, snake, updateSnake, updateSnakePosition) });
+    //         };
+    //     },
+    //     []
+    // );
 
     return (
         <div className="arcade-cabinet">
