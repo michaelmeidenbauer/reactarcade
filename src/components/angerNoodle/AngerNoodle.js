@@ -4,7 +4,7 @@ import MessageBox from './MessageBox';
 import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
-import { changeDirection} from './helperFunctions/movement';
+import { changeDirection } from './helperFunctions/movement';
 import { updateSnakePosition, updateBoardData, createDefaultBoard } from './helperFunctions/data';
 
 import {
@@ -15,11 +15,10 @@ import {
 } from 'react-router-dom';
 import { render } from '@testing-library/react';
 const AngerNoodle = () => {
-    // console.log(changeDirection);
     const defaultBoard = createDefaultBoard();
     const [portalsAllowed, updatePortalsAllowed] = useState(false);
     const [wallsAreLava, updateWallsAreLava] = useState(false);
-    const [tickRate, updateTickRate] = useState(700);
+    const [tickRate, updateTickRate] = useState(100);
     const [currentScore, updateScore] = useState(0);
     const [highScore, updateHighScore] = useState(0);
     const [direction, updateDirection] = useState('right');
@@ -33,20 +32,14 @@ const AngerNoodle = () => {
         [10, 7],
         [10, 8],
     ]);
-    
-    
     useEffect(() => {
         updateBoard(updateBoardData(snake, direction));
+        const interval = setInterval(() => {
+            updateSnake(updateSnakePosition(snake));
+        }, tickRate);
+        return () => clearInterval(interval);
+        // setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
     }, [snake]);
-
-    useEffect(() => {
-        // const interval = setInterval(() => {
-        //    updateSnakePosition();
-        // }, tickRate);
-     
-        // return () => clearInterval(interval);
-        setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
-     }, [board]);
 
     return (
         <div className="arcade-cabinet">
