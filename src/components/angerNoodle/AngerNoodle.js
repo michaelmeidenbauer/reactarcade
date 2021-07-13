@@ -45,7 +45,7 @@ const AngerNoodle = () => {
         }
         return returnArray;
     };
-    function renderSnake() {
+    function renderBoard() {
         // console.log(snake);
         const boardCopy = createDefaultBoard();
         // console.log(boardCopy);
@@ -76,22 +76,20 @@ const AngerNoodle = () => {
         }
     }
     useEffect(() => {
-        renderSnake();
+        renderBoard();
     }, [snake]);
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         updateSnakePosition();
-    //     }, tickRate);
-    // }, []);
+    useEffect(() => {
+        // const interval = setInterval(() => {
+        //    updateSnakePosition();
+        // }, tickRate);
+     
+        // return () => clearInterval(interval);
+        setTimeout(() => updateSnakePosition(), tickRate);
+     }, [board]);
 
     return (
         <div className="arcade-cabinet">
-           <button onClick={() => {
-               updateSnakePosition();
-           }}>
-               Move noodle
-           </button>
             <Score
                 currentScore={currentScore}
                 highScore={highScore}
