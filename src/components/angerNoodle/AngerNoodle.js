@@ -5,6 +5,7 @@ import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
 import { changeDirection} from './helperFunctions/movement';
+import { updateSnakePosition, updateBoardData, createDefaultBoard } from './helperFunctions/data';
 
 import {
     BrowserRouter as Router,
@@ -32,51 +33,10 @@ const AngerNoodle = () => {
         [10, 7],
         [10, 8],
     ]);
-    function createDefaultBoard() {
-        const returnArray = [];
-        while (returnArray.length < 15) {
-            const rowItem = [];
-            for (let i = 0; i < 15; i++) {
-                rowItem.push({
-                    classString: 'cell'
-                })
-            }
-            returnArray.push(rowItem);
-        }
-        return returnArray;
-    };
-    function renderBoard() {
-        // console.log(snake);
-        const boardCopy = createDefaultBoard();
-        // console.log(boardCopy);
-        const snakeCopy = [...snake];
-        snakeCopy.forEach(bodySegment => {
-            const [row, column] = bodySegment;
-            // console.log('row: ', row, "column ", column);
-            // console.log("current row: ", boardCopy[row]);
-            const currentSegment = boardCopy[row][column];
-            // console.log(currentSegment);
-            currentSegment.classString = `cell segment ${direction}`;
-        });
-        updateBoard(boardCopy);
-        // console.log(boardCopy);
-    }
-    function updateSnakePosition() {
-        console.log('updateSnakePosition called');
-        const snakeCopy = [...snake];
-        const head = snakeCopy[snakeCopy.length - 1];
-        const [headY, headX] = head;
-        console.log('head x ', headX, 'heady ', headY);
-        // console.log('snake copy: ',snakeCopy)
-        if (headX < 14) {
-            snakeCopy.splice(0, 1);
-            snakeCopy.push([headY, headX + 1]);
-            // console.log('snake copy ', snakeCopy);
-            updateSnake(snakeCopy);
-        }
-    }
+    
+    
     useEffect(() => {
-        renderBoard();
+        updateBoard(updateBoardData(snake, direction));
     }, [snake]);
 
     useEffect(() => {
@@ -85,7 +45,7 @@ const AngerNoodle = () => {
         // }, tickRate);
      
         // return () => clearInterval(interval);
-        setTimeout(() => updateSnakePosition(), tickRate);
+        setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
      }, [board]);
 
     return (
