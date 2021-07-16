@@ -10,11 +10,10 @@ import { updateSnakePosition, updateBoardData, createDefaultBoard } from './help
 import handleKeyPress from './helperFunctions/eventHandlers';
 
 const AngerNoodle = () => {
-  console.log("in anger noodle app component");
   const defaultBoard = createDefaultBoard();
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
   const [wallsAreLava, updateWallsAreLava] = useState(false);
-  const [tickRate, updateTickRate] = useState(500);
+  const [tickRate, updateTickRate] = useState(100);
   const [currentScore, updateScore] = useState(0);
   const [highScore, updateHighScore] = useState(0);
   const [direction, updateDirection] = useState('right');
@@ -29,19 +28,11 @@ const AngerNoodle = () => {
     [10, 7],
     [10, 8],
   ]);
-  // useEffect(() => {
-  //   // console.log(gameState);
-  // }, [gameState]);
   useEffect(() => {
     updateBoard(updateBoardData(snake, direction));
     if (gameState === 'active') {
-      console.log('set timeout loop');
       setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
     }
-  }, [snake]);
-  useEffect(() => {
-    updateSnake(updateSnakePosition(snake));
-    updateBoard(updateBoardData(snake, direction));
   }, [snake]);
   // useEffect(
   //     () => {

@@ -7,9 +7,7 @@ const DifficultyControls = ({
   updateWallsAreLava,
   portalsAllowed,
   updatePortalsAllowed,
-}) => {
-  console.log('in difficulty controls component');
-  return (
+}) => (
   <div className="difficulty-controls">
     <div className="anger-noodle-controls">
       <div>Sleepy Anger Noodle</div>
@@ -50,7 +48,7 @@ const DifficultyControls = ({
       </button>
     </div>
   </div>
-)};
+);
 
 DifficultyControls.propTypes = {
   updateTickRate: PropTypes.func.isRequired,
@@ -59,9 +57,5 @@ DifficultyControls.propTypes = {
   portalsAllowed: PropTypes.bool.isRequired,
   updatePortalsAllowed: PropTypes.func.isRequired,
 };
-// //updateTickRate,
-// wallsAreLava,
-// updateWallsAreLava,
-// portalsAllowed,
-// updatePortalsAllowed,
+
 export default DifficultyControls;
