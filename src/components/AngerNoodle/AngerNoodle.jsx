@@ -44,7 +44,7 @@ const AngerNoodle = () => {
         });
       };
     },
-    [direction]
+    []
   );
   useEffect(() => {
     updateBoard(updateBoardData(snake, direction));
