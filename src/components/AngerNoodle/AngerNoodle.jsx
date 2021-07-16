@@ -5,19 +5,12 @@ import MessageBox from './MessageBox';
 import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
-import { changeDirection } from './helperFunctions/movement';
+import changeDirection from './helperFunctions/movement';
 import { updateSnakePosition, updateBoardData, createDefaultBoard } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Switch,
-//   Redirect,
-// } from 'react-router-dom';
-// import { render } from '@testing-library/react';
-
 const AngerNoodle = () => {
+  console.log("in anger noodle app component");
   const defaultBoard = createDefaultBoard();
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
   const [wallsAreLava, updateWallsAreLava] = useState(false);
@@ -36,14 +29,19 @@ const AngerNoodle = () => {
     [10, 7],
     [10, 8],
   ]);
-  useEffect(() => {
-    // console.log(gameState);
-  }, [gameState]);
+  // useEffect(() => {
+  //   // console.log(gameState);
+  // }, [gameState]);
   useEffect(() => {
     updateBoard(updateBoardData(snake, direction));
     if (gameState === 'active') {
+      console.log('set timeout loop');
       setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
     }
+  }, [snake]);
+  useEffect(() => {
+    updateSnake(updateSnakePosition(snake));
+    updateBoard(updateBoardData(snake, direction));
   }, [snake]);
   // useEffect(
   //     () => {

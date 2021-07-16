@@ -1,20 +1,26 @@
-export const changeDirection = (headPosition, direction) => {
-    const [headX, headY] = headPosition;
-    let newHeadPosition;
-    const boundary = 15;
-    switch (direction) {
-      case "up":
-        return newHeadPosition = headX != 0 ? [headX - 1, headY] : [boundary, headY];
-      case "down":
-        return newHeadPosition = headX != boundary ? [headX + 1, headY] : [0, headY];
-      case "left":
-        return newHeadPosition = headY != 0 ? [headX, headY - 1] : [headX, boundary];
-      case "right":
-        return newHeadPosition = headY != boundary ? [headX, headY + 1] : [headX, 0];
-      default:
-        break;
-    }
+const changeDirection = (headPosition, direction) => {
+  const [headX, headY] = headPosition;
+  let newHeadPosition;
+  const boundary = 15;
+  switch (direction) {
+    case 'up':
+      newHeadPosition = headX !== 0 ? [headX - 1, headY] : [boundary, headY];
+      break;
+    case 'down':
+      newHeadPosition = headX !== boundary ? [headX + 1, headY] : [0, headY];
+      break;
+    case 'left':
+      newHeadPosition = headY !== 0 ? [headX, headY - 1] : [headX, boundary];
+      break;
+    case 'right':
+      newHeadPosition = headY !== boundary ? [headX, headY + 1] : [headX, 0];
+      break;
+    default:
+      break;
   }
+  return newHeadPosition;
+};
+export default changeDirection;
 
 //   export const move = (shouldDeleteTail, ) => {
 //     if (shouldDeleteTail) {
