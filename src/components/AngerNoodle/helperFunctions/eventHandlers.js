@@ -1,10 +1,11 @@
 const handleKeyPress = (
-  event, direction, updateDirection, gameState
+  event, directionRef, gameState
 ) => {
+  const direction = directionRef;
   switch (event.key) {
     case "ArrowUp": // up
       if (gameState === "active" || gameState === "paused") {
-        updateDirection(direction !== "down" ? "up" : "down");
+        direction.current = direction.current !== "down" ? "up" : "down";
       }
       // if (gameState === "gameOver") {
       //   angerNoodle.startGame()
@@ -12,7 +13,7 @@ const handleKeyPress = (
       break;
     case "ArrowDown": // down
       if (gameState === "active" || gameState === "paused") {
-        updateDirection(direction !== "up" ? "down" : "up");
+        direction.current = direction.current  !== "up" ? "down" : "up";
       }
       // if (gameState === "gameOver") {
       //   angerNoodle.startGame()
@@ -20,7 +21,7 @@ const handleKeyPress = (
       break;
     case "ArrowLeft": // left
       if (gameState === "active" || gameState === "paused") {
-        updateDirection(direction !== "right" ? "left" : "right");
+        direction.current = direction.current  !== "right" ? "left" : "right";
       }
       // if (gameState === "gameOver") {
       //   angerNoodle.startGame()
@@ -29,7 +30,7 @@ const handleKeyPress = (
 
     case "ArrowRight": // right
       if (gameState === "active" || gameState === "paused") {
-        updateDirection(direction !== "left" ? "right" : "left");
+        direction.current = direction.current  !== "left" ? "right" : "left";
       }
       // if (gameState === "gameOver") {
       //   angerNoodle.startGame()

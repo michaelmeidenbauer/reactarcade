@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Board from './Board';
 import MessageBox from './MessageBox';
 import Score from './Score';
@@ -17,7 +17,6 @@ const AngerNoodle = () => {
   const [tickRate, updateTickRate] = useState(100);
   const [currentScore, updateScore] = useState(0);
   const [highScore, updateHighScore] = useState(0);
-  const [direction, updateDirection] = useState('right');
   const [board, updateBoard] = useState(defaultBoard);
   const [gameState, updateGameState] = useState('active');
   const [shouldDeleteTail, updateShouldDeleteTail] = useState(true);
@@ -30,26 +29,27 @@ const AngerNoodle = () => {
     [10, 7],
     [10, 8],
   ]);
+  const directionRef = useRef('right');
   useEffect(
     () => {
       // Add event listener
       document.addEventListener("keydown", (event) => {
-        handleKeyPress(event, direction, updateDirection, gameState
+        handleKeyPress(event, directionRef, gameState
         )
       });
       // Remove event listener on cleanup
       return () => {
         document.removeEventListener("keydown", (event) => {
-          handleKeyPress(event, direction, updateDirection, gameState)
+          handleKeyPress(event, directionRef, gameState)
         });
       };
     },
     []
   );
   useEffect(() => {
-    updateBoard(updateBoardData(snake, direction));
+    updateBoard(updateBoardData(snake, directionRef.current));
     if (gameState === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava), tickRate);
     }
   }, [snake]);
 
