@@ -14,7 +14,7 @@ const AngerNoodle = () => {
   const defaultBoard = createDefaultBoard();
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
   const [wallsAreLava, updateWallsAreLava] = useState(false);
-  const [tickRate, updateTickRate] = useState(100);
+  const [tickRate, updateTickRate] = useState(500);
   const [currentScore, updateScore] = useState(0);
   const [highScore, updateHighScore] = useState(0);
   const [direction, updateDirection] = useState('right');

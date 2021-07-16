@@ -2,7 +2,8 @@ export const createDefaultBoard = () => {
   const returnArray = [];
   while (returnArray.length < 15) {
     const rowItem = [];
-    for (let i = 0; i < 15; i + 1) {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < 15; i++) {
       rowItem.push({
         classString: 'cell',
       });
