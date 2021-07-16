@@ -1,9 +1,8 @@
-export const createDefaultBoard = () => {
+export const createDefaultBoard = (gridSize = 15) => {
   const returnArray = [];
-  while (returnArray.length < 15) {
+  while (returnArray.length < gridSize) {
     const rowItem = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < 15; i += 1) {
+    for (let i = 0; i < gridSize; i += 1) {
       rowItem.push({
         classString: 'cell',
       });

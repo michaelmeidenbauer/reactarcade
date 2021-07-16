@@ -5,13 +5,14 @@ import MessageBox from './MessageBox';
 import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
-import changeDirection from './helperFunctions/movement';
+import move from './helperFunctions/movement';
 import { updateSnakePosition, updateBoardData, createDefaultBoard } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
 const AngerNoodle = () => {
   const defaultBoard = createDefaultBoard();
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
+  const [gridSize, setGridSize] = useState(15);
   const [wallsAreLava, updateWallsAreLava] = useState(false);
   const [tickRate, updateTickRate] = useState(100);
   const [currentScore, updateScore] = useState(0);
@@ -19,6 +20,7 @@ const AngerNoodle = () => {
   const [direction, updateDirection] = useState('right');
   const [board, updateBoard] = useState(defaultBoard);
   const [gameState, updateGameState] = useState('active');
+  const [shouldDeleteTail, updateShouldDeleteTail] = useState(true);
   const [snake, updateSnake] = useState([
     [10, 2],
     [10, 3],
@@ -28,27 +30,28 @@ const AngerNoodle = () => {
     [10, 7],
     [10, 8],
   ]);
+  useEffect(
+    () => {
+      // Add event listener
+      document.addEventListener("keydown", (event) => {
+        handleKeyPress(event, direction, updateDirection, gameState
+        )
+      });
+      // Remove event listener on cleanup
+      return () => {
+        document.removeEventListener("keydown", (event) => {
+          handleKeyPress(event, direction, updateDirection, gameState)
+        });
+      };
+    },
+    [direction]
+  );
   useEffect(() => {
     updateBoard(updateBoardData(snake, direction));
     if (gameState === 'active') {
-      setTimeout(() => updateSnake(updateSnakePosition(snake)), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava), tickRate);
     }
   }, [snake]);
-  // useEffect(
-  //     () => {
-  //         // Add event listener
-  //         document.addEventListener("keydown", (event) => {
-  //   handleKeyPress(event, gameState, updateGameState, snake, updateSnake, updateSnakePosition
-  // ) });
-  //         // Remove event listener on cleanup
-  //         return () => {
-  //             document.removeEventListener("keydown", (event) => {
-  //   handleKeyPress(event, gameState, updateGameState, snake, updateSnake, updateSnakePosition)
-  // });
-  //         };
-  //     },
-  //     []
-  // );
 
   return (
     <div className="arcade-cabinet">
