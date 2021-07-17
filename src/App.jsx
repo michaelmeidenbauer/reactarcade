@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 // import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
@@ -12,12 +12,16 @@ import AngerNoodle from './components/AngerNoodle/AngerNoodle';
 import ConnectFur from './components/ConnectFur/ConnectFur';
 
 function App() {
+  const [angerNoodleHighScore, updateAngerNoodleHighScore] = useState(0);
   return (
     <Router>
       <div id="App">
         <Switch>
           <Route path="/angerNoodle">
-            <AngerNoodle />
+            <AngerNoodle
+            angerNoodleHighScore={angerNoodleHighScore}
+            updateAngerNoodleHighScore={updateAngerNoodleHighScore}
+            />
           </Route>
           <Route path="/connectFur">
             <ConnectFur />

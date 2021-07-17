@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import Board from './Board';
 import MessageBox from './MessageBox';
 import Score from './Score';
@@ -9,7 +10,7 @@ import move from './helperFunctions/movement';
 import { updateBoardData, createDefaultBoard, makeTreatLocation } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
-const AngerNoodle = () => {
+const AngerNoodle = ({angerNoodleHighScore, updateAngerNoodleHighScore}) => {
   const defaultBoard = createDefaultBoard([5, 10]);
   const defaultTreat = makeTreatLocation(defaultBoard);
   const defaultSnake = [
@@ -27,7 +28,6 @@ const AngerNoodle = () => {
   const [wallsAreLava, updateWallsAreLava] = useState(false);
   const [tickRate, updateTickRate] = useState(100);
   const [currentScore, updateScore] = useState(0);
-  const [highScore, updateHighScore] = useState(0);
   const [board, updateBoard] = useState(defaultBoard);
   const [shouldDeleteTail, updateShouldDeleteTail] = useState(true);
   const [snake, updateSnake] = useState(defaultSnake);
@@ -54,7 +54,7 @@ const AngerNoodle = () => {
   useEffect(() => {
     updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameStateRef.current === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, angerNoodleHighScore, updateAngerNoodleHighScore, gameStateRef, snakeRef), tickRate);
     }
   }, [snake]);
 
@@ -62,7 +62,7 @@ const AngerNoodle = () => {
     <div className="arcade-cabinet">
       <Score
         currentScore={currentScore}
-        highScore={highScore}
+        highScore={angerNoodleHighScore}
       />
       <MessageBox />
       <div className="arcade-display">
@@ -83,5 +83,10 @@ const AngerNoodle = () => {
     </div>
   );
 };
+
+AngerNoodle.propTypes = {
+  angerNoodleHighScore: PropTypes.number.isRequired,
+  updateAngerNoodleHighScore: PropTypes.func.isRequired,
+}
 
 export default AngerNoodle;
