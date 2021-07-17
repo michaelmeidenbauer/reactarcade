@@ -51,7 +51,7 @@ const AngerNoodle = () => {
   useEffect(() => {
     updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameState === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, updateGameState), tickRate);
     }
   }, [snake]);
 
@@ -66,6 +66,7 @@ const AngerNoodle = () => {
         <Board
           board={board}
           wallsAreLava={wallsAreLava}
+          gameState={gameState}
         />
         <DifficultyControls
           tickRate={tickRate}

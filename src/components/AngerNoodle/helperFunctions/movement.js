@@ -1,6 +1,6 @@
 import { updateSnakePosition, makeTreatLocation } from "./data";
 
-const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore) => {
+const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, updateGameState) => {
   let score = currentScore;
   const currentHighScore = highScore;
   let newTreatCoords = null;
@@ -57,7 +57,7 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
         aboutToHitRightWall);
 
     if (nextHeadCell.classString.includes("segment") || bonk) {
-      console.log('game over!');
+      updateGameState('gameOver');
     }
     if (nextHeadCell.classString.includes("treat")) {
       const [treatRow, treatCell] = treatCoords;
