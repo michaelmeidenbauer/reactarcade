@@ -6,7 +6,7 @@ import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
 import move from './helperFunctions/movement';
-import { updateSnakePosition, updateBoardData, createDefaultBoard, makeTreatLocation } from './helperFunctions/data';
+import { updateBoardData, createDefaultBoard, makeTreatLocation } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
 const AngerNoodle = () => {
