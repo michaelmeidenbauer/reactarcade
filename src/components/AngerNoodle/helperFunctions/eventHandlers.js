@@ -46,14 +46,13 @@ const handleKeyPress = (
         restartGame();
       }
       break;
-    // case " ": // space bar
-    //   if (gameState.current === 'active') {
-    //     gameState.current = 'paused';
-    //   } else if (gameState.current === 'paused') {
-    //     gameState.current = 'active';
-    //     updateSnake();
-    //   }
-    //   break;
+    case " ": // space bar
+      if (gameState.current === 'active') {
+        gameState.current = 'paused';
+      } else if (gameState.current === 'paused') {
+        gameState.current = 'active';
+      }
+      break;
     default:
       break;
   }
