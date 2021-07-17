@@ -64,5 +64,12 @@ export const getCoords = (targetClass, board) => {
     })
   })
   return returnCoords;
-}
+};
 
+export const copySnake = (snake) => {
+  const snakeCopy = snake.map(segment => {
+    const segmentArray = [...segment];
+    return segmentArray;
+  });
+  return snakeCopy;
+}

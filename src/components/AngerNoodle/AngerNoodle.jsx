@@ -33,17 +33,18 @@ const AngerNoodle = () => {
   const [snake, updateSnake] = useState(defaultSnake);
   const directionRef = useRef('right');
   const gameStateRef = useRef('active');
+  const snakeRef = useRef(snake);
   useEffect(
     () => {
       // Add event listener
       document.addEventListener("keydown", (event) => {
-        handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore
+        handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
         )
       });
       // Remove event listener on cleanup
       return () => {
         document.removeEventListener("keydown", (event) => {
-          handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore
+          handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
             )
         });
       };
@@ -53,7 +54,7 @@ const AngerNoodle = () => {
   useEffect(() => {
     updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameStateRef.current === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef), tickRate);
     }
   }, [snake]);
 

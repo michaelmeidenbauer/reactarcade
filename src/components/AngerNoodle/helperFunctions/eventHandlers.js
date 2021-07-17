@@ -1,10 +1,11 @@
-import { updateBoardData } from "./data";
+import { updateBoardData, copySnake } from "./data";
 
 const handleKeyPress = (
-  event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore
+  event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
 ) => {
   const direction = directionRef;
   const gameState = gameStateRef;
+  const currentSnakeCopy = copySnake(snakeRef.current);
   const restartGame = () => {
     gameState.current = 'active';
     direction.current = 'right';
@@ -50,7 +51,11 @@ const handleKeyPress = (
       if (gameState.current === 'active') {
         gameState.current = 'paused';
       } else if (gameState.current === 'paused') {
+        console.log('in elseif');
         gameState.current = 'active';
+        updateSnake(currentSnakeCopy);
+      } else if (gameState.current === 'gameOver') {
+        restartGame();
       }
       break;
     default:

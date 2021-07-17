@@ -1,16 +1,13 @@
-import { makeTreatLocation, copyBoard } from "./data";
+import { makeTreatLocation, copyBoard, copySnake } from "./data";
 
-const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef) => {
+const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef) => {
   let score = currentScore;
   const currentHighScore = highScore;
   let newTreatCoords = null;
   const gameState = gameStateRef;
+  const currentSnakeRef = snakeRef;
   const boardCopy = copyBoard(board);
-  const snakeCopy = snake.map(segment => {
-    const segmentArray = [...segment];
-    return segmentArray;
-  }
-  );
+  const snakeCopy = copySnake(snake);
   const head = snakeCopy[snake.length - 1];
   const boundary = gridSize - 1;
 
@@ -90,6 +87,7 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   } else {
     updateShouldDeleteTail(true);
   }
+  currentSnakeRef.current = snakeCopy;
   updateSnake(snakeCopy);
   updateBoard(boardCopy);
   if (newTreatCoords) {
