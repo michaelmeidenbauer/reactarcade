@@ -14,7 +14,7 @@ export const makeTreatLocation = (board) => {
 export const copyBoard = (board) => {
   const boardCopy = board.map(row => {
     const cells = row.map(cell => ({
-        cellString: cell.cellString,
+        classString: cell.classString,
         id: cell.id,
       }))
       return cells;
@@ -27,9 +27,9 @@ export const createDefaultBoard = (treatCoords) => {
   const gridSize = 15;
   const [treatRow, treatCell] = treatCoords;
   const returnArray = [];
+  let rowNumber = 0;
   while (returnArray.length < gridSize) {
     const rowItem = [];
-    let rowNumber = 0;
     for (let i = 0; i < gridSize; i += 1) {
       rowItem.push({
         classString: 'cell',

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const Board = ({ board, wallsAreLava, gameState}) => (
   <div className={`snake ${wallsAreLava ? 'lava' : ''}`}>
-    { gameState === 'active' ?
+    { (gameState === 'active' || gameState === 'paused') ?
       board.map((row, index) => (
         <div className={`row ${index}`} key={`row ${index}`}>
           {row.map(cell => (
