@@ -11,8 +11,8 @@ import handleKeyPress from './helperFunctions/eventHandlers';
 
 const AngerNoodle = () => {
   const defaultBoard = createDefaultBoard([5, 10]);
-  const [treatCoords, updateTreatCoords] = useState(makeTreatLocation(defaultBoard));
-  // defaultBoard[initialTreatRow][initialTreatCell].classString = 'cell treat';
+  const defaultTreat = makeTreatLocation(defaultBoard);
+  const [treatCoords, updateTreatCoords] = useState(defaultTreat);
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
   const [gridSize, setGridSize] = useState(15);
   const [wallsAreLava, updateWallsAreLava] = useState(false);

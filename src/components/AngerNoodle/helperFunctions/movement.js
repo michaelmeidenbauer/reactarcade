@@ -71,11 +71,6 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   };
 
   // MAIN BODY OF MOVE LOGIC STARTS HERE
-  if (shouldDeleteTail) {
-    removeTail();
-  } else {
-    updateShouldDeleteTail(true);
-  }
   const [headPositionY, headPositionX] = head;
   const headCell = board[headPositionY][headPositionX];
   const newHeadPosition = changeDirection(headCell);
@@ -91,6 +86,11 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   // console.log(`head: ${head}, next: ${newHeadPosition}`);
   checkNextMove(newHeadPosition);
   snakeCopy.push(newHeadPosition);
+  if (shouldDeleteTail) {
+    removeTail();
+  } else {
+    updateShouldDeleteTail(true);
+  }
   updateSnake(snakeCopy);
   updateBoard(boardCopy);
   updateSnakePosition(snakeCopy);

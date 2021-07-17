@@ -1,13 +1,15 @@
 export const makeTreatLocation = (board) => {
+  const boardCopy = [...board];
   const getRandomBoardIndex = () => Math.floor(Math.random() * board.length);
   let randomRowIndex = getRandomBoardIndex();
   let randomCellIndex = getRandomBoardIndex();
-  let randomCell = {...board[randomRowIndex][randomCellIndex]};
-  while (randomCell.classString.includes('segment') || randomCell.classString.includes('portal')){
+  let randomCell = boardCopy[randomRowIndex][randomCellIndex];
+  while (randomCell.classString !== 'cell'){
     randomRowIndex = getRandomBoardIndex();
     randomCellIndex = getRandomBoardIndex();
-    randomCell = {...board[randomRowIndex][randomCellIndex]};
+    randomCell = boardCopy[randomRowIndex][randomCellIndex];
   }
+  console.log(randomCell);
   return [randomRowIndex, randomCellIndex];
 };
 export const createDefaultBoard = (treatCoords) => {
