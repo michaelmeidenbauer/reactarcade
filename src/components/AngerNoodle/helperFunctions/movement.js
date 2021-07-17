@@ -43,7 +43,7 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
 
   const checkNextMove = (nextHeadPosition) => {
     const [nextHeadPositionY, nextHeadPositionX] = nextHeadPosition;
-    const nextHeadCell = board[nextHeadPositionY][nextHeadPositionX];
+    const nextHeadCell = boardCopy[nextHeadPositionY][nextHeadPositionX];
     const aboutToHitTopWall =
       direction === "up" && nextHeadPositionY === boundary;
     const aboutToBottomWall = direction === "down" && nextHeadPositionY === 0;
@@ -61,9 +61,7 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
       gameState.current = 'gameOver';
     }
     if (nextHeadCell.classString.includes("treat")) {
-      const [treatRow, treatCell] = treatCoords;
-      nextHeadCell.classString = `segment`;
-      boardCopy[treatRow][treatCell].classString = 'cell';
+      nextHeadCell.classString = `segment ${direction}`;
       newTreatCoords = makeTreatLocation(boardCopy);
       const [newTreatRow, newTreatCell] = newTreatCoords;
       boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
