@@ -19,7 +19,8 @@ const DifficultyControls = ({
           min="50"
           max="150"
           onChange={(e) => {
-            updateTickRate(e.target.value);
+            const convertedSpeed = 200 - e.target.value;
+            updateTickRate(convertedSpeed);
           }}
         />
       </div>

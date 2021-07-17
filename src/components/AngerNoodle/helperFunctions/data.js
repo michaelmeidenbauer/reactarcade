@@ -1,4 +1,18 @@
-export const createDefaultBoard = (gridSize = 15) => {
+export const makeTreatLocation = (board) => {
+  const getRandomBoardIndex = () => Math.floor(Math.random() * board.length);
+  let randomRowIndex = getRandomBoardIndex();
+  let randomCellIndex = getRandomBoardIndex();
+  let randomCell = {...board[randomRowIndex][randomCellIndex]};
+  while (randomCell.classString.includes('segment') || randomCell.classString.includes('portal')){
+    randomRowIndex = getRandomBoardIndex();
+    randomCellIndex = getRandomBoardIndex();
+    randomCell = {...board[randomRowIndex][randomCellIndex]};
+  }
+  return [randomRowIndex, randomCellIndex];
+};
+export const createDefaultBoard = (treatCoords) => {
+  const gridSize = 15;
+  const [treatRow, treatCell] = treatCoords;
   const returnArray = [];
   while (returnArray.length < gridSize) {
     const rowItem = [];
@@ -9,10 +23,11 @@ export const createDefaultBoard = (gridSize = 15) => {
     }
     returnArray.push(rowItem);
   }
+  returnArray[treatRow][treatCell].classString = 'cell treat';
   return returnArray;
 };
-export const updateBoardData = (snake, direction) => {
-  const boardCopy = createDefaultBoard();
+export const updateBoardData = (snake, direction, treatCoords) => {
+  const boardCopy = createDefaultBoard(treatCoords);
   const snakeCopy = [...snake];
   snakeCopy.forEach((bodySegment) => {
     const [row, column] = bodySegment;
@@ -33,3 +48,17 @@ export const updateSnakePosition = (snake) => {
   }
   return snakeCopy;
 };
+
+export const getCoords = (targetClass, board) => {
+  let returnCoords = null;
+  [...board].forEach((row, index) => {
+    const rowIndex = index;
+    row.forEach((cell, cellIndex) => {
+      if (cell.classString.indcludes(targetClass)) {
+        returnCoords = [rowIndex, cellIndex];
+      }
+    })
+  })
+  return returnCoords;
+}
+

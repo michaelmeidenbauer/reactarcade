@@ -3,8 +3,8 @@ import React from 'react';
 import './AngerNoodle.css';
 import PropTypes from 'prop-types';
 
-const Board = ({ board }) => (
-  <div className="snake">
+const Board = ({ board, wallsAreLava }) => (
+  <div className={`snake ${wallsAreLava ? 'lava' : ''}`}>
     {
       board.map((row, index) => (
         <div key={index} className={`row ${index}`}>
@@ -21,5 +21,6 @@ Board.propTypes = {
   board: PropTypes.arrayOf(PropTypes.shape({
     classString: PropTypes.string.isRequired,
   })).isRequired,
+  wallsAreLava: PropTypes.bool.isRequired,
 };
 export default Board;

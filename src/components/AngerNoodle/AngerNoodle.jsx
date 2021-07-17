@@ -6,11 +6,13 @@ import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
 import move from './helperFunctions/movement';
-import { updateSnakePosition, updateBoardData, createDefaultBoard } from './helperFunctions/data';
+import { updateSnakePosition, updateBoardData, createDefaultBoard, makeTreatLocation } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
 const AngerNoodle = () => {
-  const defaultBoard = createDefaultBoard();
+  const defaultBoard = createDefaultBoard([5, 10]);
+  const [treatCoords, updateTreatCoords] = useState(makeTreatLocation(defaultBoard));
+  // defaultBoard[initialTreatRow][initialTreatCell].classString = 'cell treat';
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
   const [gridSize, setGridSize] = useState(15);
   const [wallsAreLava, updateWallsAreLava] = useState(false);
@@ -47,9 +49,9 @@ const AngerNoodle = () => {
     []
   );
   useEffect(() => {
-    updateBoard(updateBoardData(snake, directionRef.current));
+    updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameState === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore), tickRate);
     }
   }, [snake]);
 
@@ -63,6 +65,7 @@ const AngerNoodle = () => {
       <div className="arcade-display">
         <Board
           board={board}
+          wallsAreLava={wallsAreLava}
         />
         <DifficultyControls
           tickRate={tickRate}

@@ -1,6 +1,10 @@
-import { updateSnakePosition } from "./data";
+import { updateSnakePosition, makeTreatLocation } from "./data";
 
-const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava) => {
+const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore) => {
+  let score = currentScore;
+  const currentHighScore = highScore;
+  let newTreatCoords = null;
+  const boardCopy = [...board];
   const snakeCopy = snake.map(segment => {
     const segmentArray = [...segment];
     return segmentArray;
@@ -8,9 +12,9 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   );
   const head = snakeCopy[snake.length - 1];
   const boundary = gridSize - 1;
+
   const removeTail = () => {
     snakeCopy.splice(0, 1);
-    updateSnake(snakeCopy);
   };
 
   const changeDirection = () => {
@@ -56,13 +60,17 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
       console.log('game over!');
     }
     if (nextHeadCell.classString.includes("treat")) {
-      // nextHeadCell.addClass("segment");
+      const [treatRow, treatCell] = treatCoords;
+      nextHeadCell.classString = `segment ${direction}`;
+      boardCopy[treatRow][treatCell].classString = 'cell';
+      newTreatCoords = makeTreatLocation(boardCopy);
+      const [newTreatRow, newTreatCell] = newTreatCoords;
+      boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
       // this.eatTreat();
-      console.log('eat dat treat');
     }
   };
 
-// MAIN BODY OF MOVE LOGIC STARTS HERE
+  // MAIN BODY OF MOVE LOGIC STARTS HERE
   if (shouldDeleteTail) {
     removeTail();
   } else {
@@ -83,7 +91,18 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   // console.log(`head: ${head}, next: ${newHeadPosition}`);
   checkNextMove(newHeadPosition);
   snakeCopy.push(newHeadPosition);
+  updateSnake(snakeCopy);
+  updateBoard(boardCopy);
   updateSnakePosition(snakeCopy);
+  if (newTreatCoords) {
+    updateShouldDeleteTail(false);
+    score += 1;
+    updateTreatCoords(newTreatCoords);
+    updateScore(score);
+    if (score > currentHighScore) {
+      updateHighScore(score);
+    }
+  }
 };
 
 export default move;
