@@ -1,10 +1,11 @@
-import { updateSnakePosition, makeTreatLocation } from "./data";
+import { makeTreatLocation, copyBoard } from "./data";
 
-const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, updateGameState) => {
+const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef) => {
   let score = currentScore;
   const currentHighScore = highScore;
   let newTreatCoords = null;
-  const boardCopy = [...board];
+  const gameState = gameStateRef;
+  const boardCopy = copyBoard(board);
   const snakeCopy = snake.map(segment => {
     const segmentArray = [...segment];
     return segmentArray;
@@ -57,11 +58,11 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
         aboutToHitRightWall);
 
     if (nextHeadCell.classString.includes("segment") || bonk) {
-      updateGameState('gameOver');
+      gameState.current = 'gameOver';
     }
     if (nextHeadCell.classString.includes("treat")) {
       const [treatRow, treatCell] = treatCoords;
-      nextHeadCell.classString = `segment ${direction}`;
+      nextHeadCell.classString = `segment`;
       boardCopy[treatRow][treatCell].classString = 'cell';
       newTreatCoords = makeTreatLocation(boardCopy);
       const [newTreatRow, newTreatCell] = newTreatCoords;
@@ -93,7 +94,6 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   }
   updateSnake(snakeCopy);
   updateBoard(boardCopy);
-  updateSnakePosition(snakeCopy);
   if (newTreatCoords) {
     updateShouldDeleteTail(false);
     score += 1;

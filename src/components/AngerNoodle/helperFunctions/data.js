@@ -9,21 +9,35 @@ export const makeTreatLocation = (board) => {
     randomCellIndex = getRandomBoardIndex();
     randomCell = boardCopy[randomRowIndex][randomCellIndex];
   }
-  console.log(randomCell);
   return [randomRowIndex, randomCellIndex];
 };
+export const copyBoard = (board) => {
+  const boardCopy = board.map(row => {
+    const cells = row.map(cell => ({
+        cellString: cell.cellString,
+        id: cell.id,
+      }))
+      return cells;
+  }
+  )
+  return boardCopy;
+};
+
 export const createDefaultBoard = (treatCoords) => {
   const gridSize = 15;
   const [treatRow, treatCell] = treatCoords;
   const returnArray = [];
   while (returnArray.length < gridSize) {
     const rowItem = [];
+    let rowNumber = 0;
     for (let i = 0; i < gridSize; i += 1) {
       rowItem.push({
         classString: 'cell',
+        id: `row${rowNumber}cell${i}`
       });
     }
     returnArray.push(rowItem);
+    rowNumber += 1;
   }
   returnArray[treatRow][treatCell].classString = 'cell treat';
   return returnArray;
@@ -37,18 +51,6 @@ export const updateBoardData = (snake, direction, treatCoords) => {
     currentSegment.classString = `cell segment ${direction}`;
   });
   return boardCopy;
-};
-export const updateSnakePosition = (snake) => {
-  // console.log('updateSnakePosition called');
-  const snakeCopy = [...snake];
-  const head = snakeCopy[snakeCopy.length - 1];
-  const [headY, headX] = head;
-  // console.log('head x ', headX, 'heady ', headY);
-  if (headX < 14) {
-    snakeCopy.splice(0, 1);
-    snakeCopy.push([headY, headX + 1]);
-  }
-  return snakeCopy;
 };
 
 export const getCoords = (targetClass, board) => {

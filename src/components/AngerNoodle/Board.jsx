@@ -7,10 +7,9 @@ const Board = ({ board, wallsAreLava, gameState}) => (
   <div className={`snake ${wallsAreLava ? 'lava' : ''}`}>
     { gameState === 'active' ?
       board.map((row, index) => (
-        <div key={index} className={`row ${index}`}>
-          {row.map((cell, i) => (
-            // trying to make sure i have unique keys for all the cells. maybe janky?
-            <div className={cell.classString} key={String(index) + i} />
+        <div className={`row ${index}`} key={`row ${index}`}>
+          {row.map(cell => (
+            <div className={cell.classString} key={cell.id} />
           ))}
         </div>
       ))
@@ -25,6 +24,7 @@ const Board = ({ board, wallsAreLava, gameState}) => (
 Board.propTypes = {
   board: PropTypes.arrayOf(PropTypes.shape({
     classString: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   })).isRequired,
   wallsAreLava: PropTypes.bool.isRequired,
   gameState: PropTypes.string.isRequired,
