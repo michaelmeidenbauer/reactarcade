@@ -7,10 +7,15 @@ import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
 import move from './helperFunctions/movement';
-import { updateBoardData, createDefaultBoard, makeTreatLocation } from './helperFunctions/data';
+import {
+  updateBoardData,
+  createDefaultBoard,
+  makeTreatLocation,
+  getAngryMessage
+} from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
-const AngerNoodle = ({angerNoodleHighScore, updateAngerNoodleHighScore}) => {
+const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
   const defaultBoard = createDefaultBoard([5, 10]);
   const defaultTreat = makeTreatLocation(defaultBoard);
   const defaultSnake = [
@@ -31,6 +36,7 @@ const AngerNoodle = ({angerNoodleHighScore, updateAngerNoodleHighScore}) => {
   const [board, updateBoard] = useState(defaultBoard);
   const [shouldDeleteTail, updateShouldDeleteTail] = useState(true);
   const [snake, updateSnake] = useState(defaultSnake);
+  const [angryMessage, updateAngryMessage] = useState('"must destroy other kitteh"');
   const directionRef = useRef('right');
   const gameStateRef = useRef('active');
   const snakeRef = useRef(snake);
@@ -45,7 +51,7 @@ const AngerNoodle = ({angerNoodleHighScore, updateAngerNoodleHighScore}) => {
       return () => {
         document.removeEventListener("keydown", (event) => {
           handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
-            )
+          )
         });
       };
     },
@@ -54,7 +60,7 @@ const AngerNoodle = ({angerNoodleHighScore, updateAngerNoodleHighScore}) => {
   useEffect(() => {
     updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameStateRef.current === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, angerNoodleHighScore, updateAngerNoodleHighScore, gameStateRef, snakeRef), tickRate);
+      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, angerNoodleHighScore, updateAngerNoodleHighScore, gameStateRef, snakeRef, updateAngryMessage), tickRate);
     }
   }, [snake]);
 
@@ -64,7 +70,7 @@ const AngerNoodle = ({angerNoodleHighScore, updateAngerNoodleHighScore}) => {
         currentScore={currentScore}
         highScore={angerNoodleHighScore}
       />
-      <MessageBox />
+      <MessageBox angryMessage={angryMessage}/>
       <div className="arcade-display">
         <Board
           board={board}

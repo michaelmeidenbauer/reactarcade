@@ -1,6 +1,6 @@
-import { makeTreatLocation, copyBoard, copySnake } from "./data";
+import { makeTreatLocation, copyBoard, copySnake, getAngryMessage } from "./data";
 
-const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef) => {
+const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef, updateAngryMessage) => {
   let score = currentScore;
   const currentHighScore = highScore;
   let newTreatCoords = null;
@@ -97,6 +97,9 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
     updateScore(score);
     if (score > currentHighScore) {
       updateHighScore(score);
+    }
+    if (!(score % 5)) {
+      updateAngryMessage(getAngryMessage());
     }
   }
 };
