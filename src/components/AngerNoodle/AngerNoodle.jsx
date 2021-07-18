@@ -11,7 +11,7 @@ import {
   updateBoardData,
   createDefaultBoard,
   makeTreatLocation,
-  getAngryMessage
+  angryMessages
 } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
@@ -36,7 +36,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
   const [board, updateBoard] = useState(defaultBoard);
   const [shouldDeleteTail, updateShouldDeleteTail] = useState(true);
   const [snake, updateSnake] = useState(defaultSnake);
-  const [angryMessage, updateAngryMessage] = useState('"must destroy other kitteh"');
+  const [angryMessage, updateAngryMessage] = useState(angryMessages.setDefault());
   const directionRef = useRef('right');
   const gameStateRef = useRef('active');
   const snakeRef = useRef(snake);

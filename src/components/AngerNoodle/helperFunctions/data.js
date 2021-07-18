@@ -1,5 +1,17 @@
+export const copyBoard = (board) => {
+  const boardCopy = board.map(row => {
+    const cells = row.map(cell => ({
+      classString: cell.classString,
+      id: cell.id,
+    }))
+    return cells;
+  }
+  )
+  return boardCopy;
+};
+
 export const makeTreatLocation = (board) => {
-  const boardCopy = [...board];
+  const boardCopy = copyBoard(board);
   const getRandomBoardIndex = () => Math.floor(Math.random() * board.length);
   let randomRowIndex = getRandomBoardIndex();
   let randomCellIndex = getRandomBoardIndex();
@@ -11,8 +23,8 @@ export const makeTreatLocation = (board) => {
   }
   return [randomRowIndex, randomCellIndex];
 };
-export const getAngryMessage = () => {
-  const angryMessages = [
+export const angryMessages = ( () => {
+  const allMessages = [
     "the anger noodle is displeased with your success",
     "the anger noodle would prefer that you lose",
     "your pain pleases the anger noodle",
@@ -33,30 +45,24 @@ export const getAngryMessage = () => {
     "whoa i just kind of blacked out there for a second",
     "yyyyyyes destroy other kitteh"
   ];
-  let messageCopies = [...angryMessages];
-  let splicedQuote = [];
-  const getRandomMessage = () => {
+  let messageCopies = [...allMessages];
+
+  const pub = {};
+
+  pub.getRandom = () => {
     const getrandomNumber = () => Math.floor(Math.random() * messageCopies.length);
-    splicedQuote = messageCopies.splice(getrandomNumber(), 1);
+    const splicedQuote = messageCopies.splice(getrandomNumber(), 1);
     if (messageCopies.length === 0) {
-      messageCopies = [...angryMessages];
+      messageCopies = [...allMessages];
     }
-    console.log('original length: ', angryMessages.length, 'copies length: ', messageCopies.length);
+    // console.log('original length: ', allMessages.length, 'copies length: ', messageCopies.length);
     return splicedQuote;
   };
-  return getRandomMessage();
-};
-export const copyBoard = (board) => {
-  const boardCopy = board.map(row => {
-    const cells = row.map(cell => ({
-      classString: cell.classString,
-      id: cell.id,
-    }))
-    return cells;
-  }
-  )
-  return boardCopy;
-};
+  pub.setDefault = () => '"must destroy other kitteh"';
+  pub.setEvery25 = (score) => `"the anger noodle appreciates how you've destroyed other kitteh ${score} times"`;
+
+  return pub;
+})();
 
 export const createDefaultBoard = (treatCoords) => {
   const gridSize = 15;

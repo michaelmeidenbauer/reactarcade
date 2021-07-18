@@ -1,4 +1,4 @@
-import { makeTreatLocation, copyBoard, copySnake, getAngryMessage } from "./data";
+import { makeTreatLocation, copyBoard, copySnake, angryMessages } from "./data";
 
 const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef, updateAngryMessage) => {
   let score = currentScore;
@@ -99,7 +99,10 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
       updateHighScore(score);
     }
     if (!(score % 5)) {
-      updateAngryMessage(getAngryMessage());
+      updateAngryMessage(angryMessages.getRandom());
+    }
+    if (!(score % 25)) {
+      updateAngryMessage(angryMessages.setEvery25(score));
     }
   }
 };
