@@ -6,18 +6,18 @@ import MessageBox from './MessageBox';
 import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
-import move from './helperFunctions/movement';
+import computeNextFrame from './helperFunctions/gameLogic';
 import {
   updateBoardData,
   createDefaultBoard,
-  makeTreatLocation,
+  makeRandomPositionIndex,
   angryMessages
 } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
 const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
   const defaultBoard = createDefaultBoard([5, 10]);
-  const defaultTreat = makeTreatLocation(defaultBoard);
+  const defaultTreat = makeRandomPositionIndex(defaultBoard);
   const defaultSnake = [
     [10, 2],
     [10, 3],
@@ -44,13 +44,13 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
     () => {
       // Add event listener
       document.addEventListener("keydown", (event) => {
-        handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
+        handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef, updateAngryMessage
         )
       });
       // Remove event listener on cleanup
       return () => {
         document.removeEventListener("keydown", (event) => {
-          handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
+          handleKeyPress(event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef, updateAngryMessage
           )
         });
       };
@@ -60,7 +60,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
   useEffect(() => {
     updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameStateRef.current === 'active') {
-      setTimeout(() => move(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, angerNoodleHighScore, updateAngerNoodleHighScore, gameStateRef, snakeRef, updateAngryMessage), tickRate);
+      setTimeout(() => computeNextFrame(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, angerNoodleHighScore, updateAngerNoodleHighScore, gameStateRef, snakeRef, updateAngryMessage), tickRate);
     }
   }, [snake]);
 

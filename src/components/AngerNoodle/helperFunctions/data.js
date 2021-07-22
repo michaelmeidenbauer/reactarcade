@@ -10,9 +10,9 @@ export const copyBoard = (board) => {
   return boardCopy;
 };
 
-export const makeTreatLocation = (board) => {
+export const makeRandomPositionIndex = (board) => {
   const boardCopy = copyBoard(board);
-  const getRandomBoardIndex = () => Math.floor(Math.random() * board.length);
+  const getRandomBoardIndex = () => Math.floor(Math.random() * boardCopy.length);
   let randomRowIndex = getRandomBoardIndex();
   let randomCellIndex = getRandomBoardIndex();
   let randomCell = boardCopy[randomRowIndex][randomCellIndex];
@@ -106,7 +106,27 @@ export const getCoords = (targetClass, board) => {
   })
   return returnCoords;
 };
-
+// export const rollForPortal = () => {
+//   const getRandomIndex = () => Math.floor(Math.random() * 5);
+//   const chance = getRandomIndex();
+//   if (!this.gameState.portal.isOpen && chance === 2) {
+//     this.openPortals();
+//     this.gameState.portal.isOpen = true;
+//   }
+// };
+// export const openPortals = (board) => {
+//   const notSnakeOrTreatCells = $(".cell:not(.segment, .treat)");
+//   const getRandomIndex = () => Math.floor(Math.random() * notSnakeOrTreatCells.length);
+//   const orangeIndex = getRandomIndex();
+//   let blueIndex = getRandomIndex();
+//   while (orangeIndex === blueIndex) {
+//     blueIndex = getRandomIndex();
+//   };
+//   $(notSnakeOrTreatCells[orangeIndex]).addClass('portal orange');
+//   $(notSnakeOrTreatCells[blueIndex]).addClass('portal blue');
+//   this.gameState.portal.blue = this.getCoords('blue');
+//   this.gameState.portal.orange = this.getCoords('orange');
+// }
 export const copySnake = (snake) => {
   const snakeCopy = snake.map(segment => {
     const segmentArray = [...segment];

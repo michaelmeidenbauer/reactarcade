@@ -1,6 +1,6 @@
-import { makeTreatLocation, copyBoard, copySnake, angryMessages } from "./data";
+import { makeRandomPositionIndex, copyBoard, copySnake, angryMessages } from "./data";
 
-const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef, updateAngryMessage) => {
+const computerNextFrame = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef, updateAngryMessage) => {
   let score = currentScore;
   const currentHighScore = highScore;
   let newTreatCoords = null;
@@ -59,7 +59,7 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
     }
     if (nextHeadCell.classString.includes("treat")) {
       nextHeadCell.classString = `segment ${direction}`;
-      newTreatCoords = makeTreatLocation(boardCopy);
+      newTreatCoords = makeRandomPositionIndex(boardCopy);
       const [newTreatRow, newTreatCell] = newTreatCoords;
       boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
       // this.eatTreat();
@@ -107,4 +107,4 @@ const move = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, grid
   }
 };
 
-export default move;
+export default computerNextFrame;

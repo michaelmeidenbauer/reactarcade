@@ -1,7 +1,7 @@
-import { updateBoardData, copySnake } from "./data";
+import { updateBoardData, copySnake, angryMessages } from "./data";
 
 const handleKeyPress = (
-  event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef
+  event, directionRef, gameStateRef, defaultSnake, updateSnake, updateBoard, updateScore, snakeRef, updateAngryMessage
 ) => {
   const direction = directionRef;
   const gameState = gameStateRef;
@@ -9,6 +9,7 @@ const handleKeyPress = (
   const restartGame = () => {
     gameState.current = 'active';
     direction.current = 'right';
+    updateAngryMessage(angryMessages.setDefault());
     updateScore(0);
     updateBoard(updateBoardData(defaultSnake, direction.current, [10, 5]));
     updateSnake(defaultSnake);
