@@ -51,7 +51,7 @@ export const checkNextMove = (nextHeadPosition, direction, boardCopy, boundary, 
   return "";
 };
 
-export const updateSnakeAndScoreData = (score, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, currentHighScore,  shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords) => {
+export const updateGameStateData = (score, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, currentHighScore,  shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords) => {
   const scopedSnakeCopy = copySnake(snakeCopy);
   const scopedBoardCopy = copyBoard(boardCopy);
   const anotherSnakeRef = currentSnakeRef;

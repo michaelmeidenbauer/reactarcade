@@ -9,7 +9,7 @@ import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
 import {
   checkNextMove,
-  updateSnakeAndScoreData,
+  updateGameStateData,
   getNextHeadPosition
 } from './helperFunctions/gameLogic';
 import {
@@ -87,7 +87,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
           boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
         }
         snakeCopy.push(nextHeadPosition);
-        updateSnakeAndScoreData(currentScore, snakeCopy, boardCopy, snakeRef, newTreatCoords, angerNoodleHighScore, shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
+        updateGameStateData(currentScore, snakeCopy, boardCopy, snakeRef, newTreatCoords, angerNoodleHighScore, shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
       }, tickRate);
     }
   }, [snake]);
