@@ -42,10 +42,10 @@ export const checkNextMove = (nextHeadPosition, direction, boardCopy, boundary, 
       aboutToHitLeftWall ||
       aboutToHitRightWall);
 
-  if (nextHeadCell.classString.includes("segment") || bonk) {
+  if (nextHeadCell.isSegment || bonk) {
     return "gameOver";
   }
-  if (nextHeadCell.classString.includes('treat')) {
+  if (nextHeadCell.isTreat) {
     return "treat";
   }
   return "";

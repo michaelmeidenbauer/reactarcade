@@ -104,6 +104,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
           board={board}
           wallsAreLava={wallsAreLava}
           gameState={gameStateRef.current}
+          direction={directionRef.current}
         />
         <DifficultyControls
           tickRate={tickRate}

@@ -1,15 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import './AngerNoodle.css';
 import PropTypes from 'prop-types';
+import Cell from './Cell';
 
-const Board = ({ board, wallsAreLava, gameState}) => (
+const Board = ({ board, wallsAreLava, gameState, direction }) => (
   <div className={`snake ${wallsAreLava ? 'lava' : ''}`}>
     { (gameState === 'active' || gameState === 'paused') ?
       board.map((row, index) => (
         <div className={`row ${index}`} key={`row ${index}`}>
           {row.map(cell => (
-            <div className={cell.classString} key={cell.id} />
+            <Cell cell={cell} direction={direction} key={cell.id}/>
           ))}
         </div>
       ))
@@ -28,5 +28,6 @@ Board.propTypes = {
   })).isRequired,
   wallsAreLava: PropTypes.bool.isRequired,
   gameState: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired,
 };
 export default Board;
