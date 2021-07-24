@@ -1,110 +1,85 @@
-import { makeRandomPositionIndex, copyBoard, copySnake, angryMessages } from "./data";
+/* eslint-disable no-param-reassign */
+import { angryMessages, copySnake, copyBoard } from "./data";
 
-const computerNextFrame = (shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, direction, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, highScore, updateHighScore, gameStateRef, snakeRef, updateAngryMessage) => {
-  let score = currentScore;
-  const currentHighScore = highScore;
-  let newTreatCoords = null;
-  const gameState = gameStateRef;
-  const currentSnakeRef = snakeRef;
-  const boardCopy = copyBoard(board);
-  const snakeCopy = copySnake(snake);
-  const head = snakeCopy[snake.length - 1];
-  const boundary = gridSize - 1;
+export const getNextHeadPosition = (head, direction, boundary) => {
+  const [headX, headY] = head;
+  // console.log(`head x: ${headX}, head y: ${headY}`);
+  // console.log('direction: ', direction);
+  let newHeadPosition;
+  switch (direction) {
+    case 'up':
+      newHeadPosition = headX !== 0 ? [headX - 1, headY] : [boundary, headY];
+      break;
+    case 'down':
+      newHeadPosition = headX !== boundary ? [headX + 1, headY] : [0, headY];
+      break;
+    case 'left':
+      newHeadPosition = headY !== 0 ? [headX, headY - 1] : [headX, boundary];
+      break;
+    case 'right':
+      newHeadPosition = headY !== boundary ? [headX, headY + 1] : [headX, 0];
+      break;
+    default:
+      break;
+  }
+  return newHeadPosition;
+};
 
-  const removeTail = () => {
-    snakeCopy.splice(0, 1);
-  };
+export const checkNextMove = (nextHeadPosition, direction, boardCopy, boundary, wallsAreLava) => {
+  const board = boardCopy;
+  const [nextHeadPositionY, nextHeadPositionX] = nextHeadPosition;
+  const nextHeadCell = board[nextHeadPositionY][nextHeadPositionX];
+  const aboutToHitTopWall =
+    direction === "up" && nextHeadPositionY === boundary;
+  const aboutToBottomWall = direction === "down" && nextHeadPositionY === 0;
+  const aboutToHitLeftWall =
+    direction === "left" && nextHeadPositionX === boundary;
+  const aboutToHitRightWall =
+    direction === "right" && nextHeadPositionX === 0;
+  const bonk = wallsAreLava &&
+    (aboutToHitTopWall ||
+      aboutToBottomWall ||
+      aboutToHitLeftWall ||
+      aboutToHitRightWall);
 
-  const changeDirection = () => {
-    const [headX, headY] = head;
-    // console.log(`head x: ${headX}, head y: ${headY}`);
-    let newHeadPosition;
-    switch (direction) {
-      case 'up':
-        newHeadPosition = headX !== 0 ? [headX - 1, headY] : [boundary, headY];
-        break;
-      case 'down':
-        newHeadPosition = headX !== boundary ? [headX + 1, headY] : [0, headY];
-        break;
-      case 'left':
-        newHeadPosition = headY !== 0 ? [headX, headY - 1] : [headX, boundary];
-        break;
-      case 'right':
-        newHeadPosition = headY !== boundary ? [headX, headY + 1] : [headX, 0];
-        break;
-      default:
-        break;
-    }
-    return newHeadPosition;
-  };
+  if (nextHeadCell.classString.includes("segment") || bonk) {
+    return "gameOver";
+  }
+  if (nextHeadCell.classString.includes('treat')) {
+    return "treat";
+  }
+  return "";
+};
 
-  const checkNextMove = (nextHeadPosition) => {
-    const [nextHeadPositionY, nextHeadPositionX] = nextHeadPosition;
-    const nextHeadCell = boardCopy[nextHeadPositionY][nextHeadPositionX];
-    const aboutToHitTopWall =
-      direction === "up" && nextHeadPositionY === boundary;
-    const aboutToBottomWall = direction === "down" && nextHeadPositionY === 0;
-    const aboutToHitLeftWall =
-      direction === "left" && nextHeadPositionX === boundary;
-    const aboutToHitRightWall =
-      direction === "right" && nextHeadPositionX === 0;
-    const bonk = wallsAreLava &&
-      (aboutToHitTopWall ||
-        aboutToBottomWall ||
-        aboutToHitLeftWall ||
-        aboutToHitRightWall);
-
-    if (nextHeadCell.classString.includes("segment") || bonk) {
-      gameState.current = 'gameOver';
-    }
-    if (nextHeadCell.classString.includes("treat")) {
-      nextHeadCell.classString = `segment ${direction}`;
-      newTreatCoords = makeRandomPositionIndex(boardCopy);
-      const [newTreatRow, newTreatCell] = newTreatCoords;
-      boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
-      // this.eatTreat();
-    }
-  };
-
-  // MAIN BODY OF MOVE LOGIC STARTS HERE
-  const [headPositionY, headPositionX] = head;
-  const headCell = board[headPositionY][headPositionX];
-  const newHeadPosition = changeDirection(headCell);
-
-  // if (headCell.hasClass('portal')) {
-  //   //get the coords of the other portal and feed them into changeDirection
-  //   newHeadPosition = headCell.hasClass('orange') ? this.gameState.portal.blue : this.gameState.portal.orange;
-  //   $('.cell').removeClass('portal');
-  //   this.gameState.portal.isOpen = false;
-  // } else {
-  //   newHeadPosition = this.changeDirection(this.gameState.head);
-  // }
-  // console.log(`head: ${head}, next: ${newHeadPosition}`);
-  checkNextMove(newHeadPosition);
-  snakeCopy.push(newHeadPosition);
+export const updateSnakeAndScoreData = (score, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, currentHighScore,  shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords) => {
+  console.log(newTreatCoords);
+  const scopedSnakeCopy = copySnake(snakeCopy);
+  const scopedBoardCopy = copyBoard(boardCopy);
+  console.log('final board: ', scopedBoardCopy);
+  const anotherSnakeRef = currentSnakeRef;
+  let newScore = score;
   if (shouldDeleteTail) {
-    removeTail();
+    scopedSnakeCopy.splice(0, 1);
   } else {
     updateShouldDeleteTail(true);
   }
-  currentSnakeRef.current = snakeCopy;
-  updateSnake(snakeCopy);
-  updateBoard(boardCopy);
-  if (newTreatCoords) {
+  anotherSnakeRef.current = copySnake(scopedSnakeCopy);
+  updateSnake(scopedSnakeCopy);
+  updateBoard(scopedBoardCopy);
+  const treatCoordsWereUpdated = newTreatCoords.length > 0;
+  if (treatCoordsWereUpdated) {
     updateShouldDeleteTail(false);
-    score += 1;
+    newScore += 1;
     updateTreatCoords(newTreatCoords);
-    updateScore(score);
-    if (score > currentHighScore) {
-      updateHighScore(score);
+    updateScore(newScore);
+    if (newScore > currentHighScore) {
+      updateAngerNoodleHighScore(newScore);
     }
-    if (!(score % 5)) {
+    if (!(newScore % 5)) {
       updateAngryMessage(angryMessages.getRandom());
     }
-    if (!(score % 25)) {
-      updateAngryMessage(angryMessages.setEvery25(score));
+    if (!(newScore % 25)) {
+      updateAngryMessage(angryMessages.setEvery25(newScore));
     }
   }
 };
-
-export default computerNextFrame;

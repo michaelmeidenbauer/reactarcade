@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable prefer-const */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Board from './Board';
@@ -6,12 +7,18 @@ import MessageBox from './MessageBox';
 import Score from './Score';
 import DifficultyControls from './DifficultyControls';
 import './AngerNoodle.css';
-import computeNextFrame from './helperFunctions/gameLogic';
+import {
+  checkNextMove,
+  updateSnakeAndScoreData,
+  getNextHeadPosition
+} from './helperFunctions/gameLogic';
 import {
   updateBoardData,
   createDefaultBoard,
   makeRandomPositionIndex,
-  angryMessages
+  angryMessages,
+  copyBoard,
+  copySnake
 } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
@@ -58,9 +65,31 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
     []
   );
   useEffect(() => {
-    updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
+    const currentDirection = directionRef.current;
+    updateBoard(updateBoardData(snake, currentDirection, treatCoords));
     if (gameStateRef.current === 'active') {
-      setTimeout(() => computeNextFrame(shouldDeleteTail, updateShouldDeleteTail, snake, updateSnake, gridSize, board, updateBoard, directionRef.current, wallsAreLava, treatCoords, updateTreatCoords, currentScore, updateScore, angerNoodleHighScore, updateAngerNoodleHighScore, gameStateRef, snakeRef, updateAngryMessage), tickRate);
+      setTimeout(() => {
+        let newTreatCoords = [];
+        const currentSnakeRef = snakeRef;
+        const boardCopy = copyBoard(board);
+        const snakeCopy = copySnake(snake);
+        const head = snakeCopy[snake.length - 1];
+        const boundary = gridSize - 1;
+        const nextHeadPosition = getNextHeadPosition(head, currentDirection, boundary);
+        const [nextHeadPositionRow, nextHeadPositionCell] = nextHeadPosition;
+        const nextHeadCell = boardCopy[nextHeadPositionRow][nextHeadPositionCell];
+        const nextMoveResult = checkNextMove(nextHeadPosition, currentDirection, boardCopy, boundary, wallsAreLava);
+        if (nextMoveResult === 'gameOver') {
+          gameStateRef.current = 'gameOver';
+        } else if (nextMoveResult === "treat") {
+          nextHeadCell.classString = `segment ${currentDirection}`;
+          newTreatCoords = makeRandomPositionIndex(boardCopy);
+          const [newTreatRow, newTreatCell] = newTreatCoords;
+          boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
+        }
+        snakeCopy.push(nextHeadPosition);
+        updateSnakeAndScoreData(currentScore, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, angerNoodleHighScore, shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
+      }, tickRate);
     }
   }, [snake]);
 
@@ -70,7 +99,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
         currentScore={currentScore}
         highScore={angerNoodleHighScore}
       />
-      <MessageBox angryMessage={angryMessage}/>
+      <MessageBox angryMessage={angryMessage} />
       <div className="arcade-display">
         <Board
           board={board}
