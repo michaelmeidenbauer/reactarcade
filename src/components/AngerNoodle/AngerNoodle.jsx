@@ -70,7 +70,6 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
     if (gameStateRef.current === 'active') {
       setTimeout(() => {
         let newTreatCoords = [];
-        const currentSnakeRef = snakeRef;
         const boardCopy = copyBoard(board);
         const snakeCopy = copySnake(snake);
         const head = snakeCopy[snake.length - 1];
@@ -88,7 +87,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
           boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
         }
         snakeCopy.push(nextHeadPosition);
-        updateSnakeAndScoreData(currentScore, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, angerNoodleHighScore, shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
+        updateSnakeAndScoreData(currentScore, snakeCopy, boardCopy, snakeRef, newTreatCoords, angerNoodleHighScore, shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
       }, tickRate);
     }
   }, [snake]);
