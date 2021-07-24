@@ -66,8 +66,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
     []
   );
   useEffect(() => {
-    const currentDirection = directionRef.current;
-    updateBoard(updateBoardData(snake, currentDirection, treatCoords));
+    updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
     if (gameStateRef.current === 'active') {
       setTimeout(() => {
         let newTreatCoords = [];
@@ -75,11 +74,11 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
         const snakeCopy = copySnake(snake);
         const head = snakeCopy[snake.length - 1];
         const boundary = gridSize - 1;
-        const nextHeadPosition = getNextHeadPosition(head, currentDirection, boundary);
+        const nextHeadPosition = getNextHeadPosition(head, directionRef.current, boundary);
         const [nextHeadPositionRow, nextHeadPositionCell] = nextHeadPosition;
         const nextHeadCell = boardCopy[nextHeadPositionRow][nextHeadPositionCell];
         updateTail(snakeCopy, shouldDeleteTail, updateShouldDeleteTail);
-        const nextMoveResult = checkNextMove(nextHeadPosition, currentDirection, boardCopy, boundary, wallsAreLava);
+        const nextMoveResult = checkNextMove(nextHeadPosition, directionRef.current, boardCopy, boundary, wallsAreLava);
         if (nextMoveResult === 'gameOver') {
           gameStateRef.current = 'gameOver';
         } else if (nextMoveResult === "treat") {
