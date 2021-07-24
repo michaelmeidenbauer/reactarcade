@@ -52,10 +52,8 @@ export const checkNextMove = (nextHeadPosition, direction, boardCopy, boundary, 
 };
 
 export const updateSnakeAndScoreData = (score, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, currentHighScore,  shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords) => {
-  console.log(newTreatCoords);
   const scopedSnakeCopy = copySnake(snakeCopy);
   const scopedBoardCopy = copyBoard(boardCopy);
-  console.log('final board: ', scopedBoardCopy);
   const anotherSnakeRef = currentSnakeRef;
   let newScore = score;
   if (shouldDeleteTail) {
