@@ -25,6 +25,14 @@ export const getNextHeadPosition = (head, direction, boundary) => {
   return newHeadPosition;
 };
 
+export const updateTail = (snake, shouldDeleteTail, updateShouldDeleteTail) => {
+  if (shouldDeleteTail) {
+    snake.splice(0, 1);
+  } else {
+    updateShouldDeleteTail(true);
+  }
+};
+
 export const checkNextMove = (nextHeadPosition, direction, boardCopy, boundary, wallsAreLava) => {
   const board = boardCopy;
   const [nextHeadPositionY, nextHeadPositionX] = nextHeadPosition;
@@ -51,16 +59,11 @@ export const checkNextMove = (nextHeadPosition, direction, boardCopy, boundary, 
   return "";
 };
 
-export const updateGameStateData = (score, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, currentHighScore,  shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords) => {
+export const updateGameStateData = (score, snakeCopy, boardCopy, currentSnakeRef, newTreatCoords, currentHighScore,   updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords) => {
   const scopedSnakeCopy = copySnake(snakeCopy);
   const scopedBoardCopy = copyBoard(boardCopy);
   const anotherSnakeRef = currentSnakeRef;
   let newScore = score;
-  if (shouldDeleteTail) {
-    scopedSnakeCopy.splice(0, 1);
-  } else {
-    updateShouldDeleteTail(true);
-  }
   anotherSnakeRef.current = copySnake(scopedSnakeCopy);
   updateSnake(scopedSnakeCopy);
   updateBoard(scopedBoardCopy);

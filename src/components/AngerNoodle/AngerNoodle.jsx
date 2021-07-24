@@ -10,7 +10,8 @@ import './AngerNoodle.css';
 import {
   checkNextMove,
   updateGameStateData,
-  getNextHeadPosition
+  getNextHeadPosition,
+  updateTail,
 } from './helperFunctions/gameLogic';
 import {
   updateBoardData,
@@ -18,7 +19,7 @@ import {
   makeRandomPositionIndex,
   angryMessages,
   copyBoard,
-  copySnake
+  copySnake,
 } from './helperFunctions/data';
 import handleKeyPress from './helperFunctions/eventHandlers';
 
@@ -77,17 +78,20 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
         const nextHeadPosition = getNextHeadPosition(head, currentDirection, boundary);
         const [nextHeadPositionRow, nextHeadPositionCell] = nextHeadPosition;
         const nextHeadCell = boardCopy[nextHeadPositionRow][nextHeadPositionCell];
+        updateTail(snakeCopy, shouldDeleteTail, updateShouldDeleteTail);
         const nextMoveResult = checkNextMove(nextHeadPosition, currentDirection, boardCopy, boundary, wallsAreLava);
         if (nextMoveResult === 'gameOver') {
           gameStateRef.current = 'gameOver';
         } else if (nextMoveResult === "treat") {
-          nextHeadCell.classString = `segment ${currentDirection}`;
-          newTreatCoords = makeRandomPositionIndex(boardCopy);
-          const [newTreatRow, newTreatCell] = newTreatCoords;
-          boardCopy[newTreatRow][newTreatCell].cellString = 'cell treat';
+          nextHeadCell.isSegment = true;
+          const [newTreatRow, newTreatCell] = makeRandomPositionIndex(boardCopy);
+          newTreatCoords = [newTreatRow, newTreatCell];
+          updateTreatCoords(newTreatCoords);
+          const newTreat = boardCopy[newTreatRow][newTreatCell];
+          newTreat.isTreat = true;
         }
         snakeCopy.push(nextHeadPosition);
-        updateGameStateData(currentScore, snakeCopy, boardCopy, snakeRef, newTreatCoords, angerNoodleHighScore, shouldDeleteTail, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
+        updateGameStateData(currentScore, snakeCopy, boardCopy, snakeRef, newTreatCoords, angerNoodleHighScore, updateShouldDeleteTail, updateSnake, updateBoard, updateScore, updateAngerNoodleHighScore, updateAngryMessage, updateTreatCoords);
       }, tickRate);
     }
   }, [snake]);
