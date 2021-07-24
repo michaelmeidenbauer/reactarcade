@@ -16,7 +16,7 @@ const Cell = ({ cell, direction }) => {
 
 Cell.propTypes = {
     cell: PropTypes.shape({
-        isSegment: PropTypes.string.isRequired,
+        isSegment: PropTypes.bool.isRequired,
         isTreat: PropTypes.bool.isRequired,
         id: PropTypes.string.isRequired,
       }).isRequired,
