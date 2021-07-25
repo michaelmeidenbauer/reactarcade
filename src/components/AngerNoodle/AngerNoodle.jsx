@@ -37,6 +37,11 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
   ];
   const [treatCoords, updateTreatCoords] = useState(defaultTreat);
   const [portalsAllowed, updatePortalsAllowed] = useState(false);
+  const [portalIsOpen, updateportalIsOpen] = useState(false);
+  const [portalCoords, updatePortalCoords] = useState({
+    blue: [],
+    orange: [],
+  });
   const [gridSize, setGridSize] = useState(15);
   const [wallsAreLava, updateWallsAreLava] = useState(false);
   const [tickRate, updateTickRate] = useState(100);
@@ -66,7 +71,7 @@ const AngerNoodle = ({ angerNoodleHighScore, updateAngerNoodleHighScore }) => {
     []
   );
   useEffect(() => {
-    updateBoard(updateBoardData(snake, directionRef.current, treatCoords));
+    updateBoard(updateBoardData(snake, portalIsOpen, portalCoords, treatCoords));
     if (gameStateRef.current === 'active') {
       setTimeout(() => {
         let newTreatCoords = [];

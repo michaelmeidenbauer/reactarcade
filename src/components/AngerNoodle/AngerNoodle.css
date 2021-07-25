@@ -47,18 +47,15 @@
 .portal-button-active {
     animation: portalBlink 4s infinite linear;
 }
-.orange {
+.orange-portal {
     background-image: url("./portal-orange.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
-.blue {
+.blue-portal {
     background-image: url("./portal-blue.png");
     background-repeat: no-repeat;
     background-size: cover;
-}
-.portal {
-    color: transparent;
 }
 .segment {
     background-color: transparent;

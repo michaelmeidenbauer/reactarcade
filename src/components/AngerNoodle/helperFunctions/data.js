@@ -85,7 +85,7 @@ export const createDefaultBoard = (treatCoords) => {
   returnArray[treatRow][treatCell].isTreat = true;
   return returnArray;
 };
-export const updateBoardData = (snake, direction, treatCoords) => {
+export const updateBoardData = (snake, portalIsOpen, portalCoords, treatCoords) => {
   const boardCopy = createDefaultBoard(treatCoords);
   const snakeCopy = [...snake];
   snakeCopy.forEach((bodySegment) => {

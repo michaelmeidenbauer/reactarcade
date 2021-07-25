@@ -11,7 +11,7 @@ const handleKeyPress = (
     direction.current = 'right';
     updateAngryMessage(angryMessages.setDefault());
     updateScore(0);
-    updateBoard(updateBoardData(defaultSnake, direction.current, [10, 5]));
+    updateBoard(updateBoardData(defaultSnake, false, [], [10, 5]));
     updateSnake(defaultSnake);
   }
   switch (event.key) {
